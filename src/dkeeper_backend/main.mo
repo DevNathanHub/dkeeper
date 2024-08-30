@@ -1,6 +1,7 @@
 import Text "mo:base/Text";
 import List "mo:base/List";
 import Debug "mo:base/Debug";
+import Nat "mo:base/Nat";
 
 actor DKeeper {
   public type Note = {
@@ -21,5 +22,10 @@ actor DKeeper {
   public query func readNotes() : async [Note] {
     return List.toArray(notes);
   };
+  public func deleteNote(noteId : Nat) {
+    let notesFront = List.take(notes, noteId);
+    let notesBack = List.drop(notes, noteId + 1);
 
+    notes := List.append(notesFront, notesBack);
+  };
 };

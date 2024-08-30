@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Note from "./Components/Note";
@@ -16,8 +16,17 @@ function App() {
     });
      
   }
+  useEffect(()=>{
+    fetchNotes();
+  }, []);
+
+  async function fetchNotes() {
+    const arrayNotes = await dkeeper_backend.readNotes();  
+    setNotes(arrayNotes);  
+  }
 
   function deleteNote(id) {
+    dkeeper_backend.deleteNote(id);
     setNotes(prevNotes => {
       return prevNotes.filter((noteItem, index) => {
         return index !== id;
